@@ -1,0 +1,33 @@
+name: Test `setup-minio-cli` action
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-setup-minio-cli:
+    runs-on: [ 'ubuntu-latest' ]
+    name: Test with cache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Test
+        id: test
+        uses: ./
+      - name: Check
+        run: |
+          mc --help
+  test-setup-minio-cli-cacheless:
+    runs-on: [ 'ubuntu-latest' ]
+    name: Test without cache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Test
+        id: test
+        uses: ./
+        with:
+          use_cache: false
+      - name: Check
+        run: |
+          mc --help
